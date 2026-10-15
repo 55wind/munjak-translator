@@ -105,7 +105,13 @@ strip.addEventListener('click', async (e) => {
   const id = btn.closest('.koma').dataset.char;
   const c = CHARACTERS.find((x) => x.id === id);
   if (btn.dataset.act === 'again') {
-    rolls[id] += 1;
+    // 같은 말이 또 나오면 몇 번 더 굴려 본다
+    const before = document.getElementById(`said-${id}`).dataset.raw;
+    const text = src.value.trim();
+    for (let i = 0; i < 8; i++) {
+      rolls[id] += 1;
+      if (!text || translate(text, id, rolls[id]) !== before) break;
+    }
     render(id, true);
   } else {
     const text = document.getElementById(`said-${id}`).dataset.raw;
