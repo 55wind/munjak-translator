@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>먼작귀 번역기</title>
+    <meta name="description" content="한글로 쓰면 치이카와, 하치와레, 우사기, 시사, 쿠리만쥬, 랏코, 모몽가 말투로 바꿔 주는 팬메이드 번역기" />
+    <meta property="og:title" content="먼작귀 번역기" />
+    <meta property="og:description" content="한글로 쓰면 먼작귀 친구들 말투로 바꿔 줘요." />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- 색연필 질감 필터 -->
+    <svg class="defs" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- 종이 결: 칠한 색 사이로 흰 종이가 비친다 -->
+        <filter id="grain" x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox">
+          <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="4" result="n" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -3.2 0 0 0 2.35" result="m" />
+          <feComposite in="SourceGraphic" in2="m" operator="in" />
+        </filter>
+        <!-- 연필 선: 살짝 흔들리고 군데군데 옅어진다 -->
+        <filter id="graphite" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2" result="warp" />
+          <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="moved" />
+          <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="9" result="n" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.4 0 0 0 2.1" result="m" />
+          <feComposite in="moved" in2="m" operator="in" />
+        </filter>
+        <!-- 캐릭터 선 -->
+        <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="5" result="warp" />
+          <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <main class="book">
+      <div class="rings" aria-hidden="true"></div>
+
+      <header class="cover">
+        <h1 class="title">
+          <svg class="title-art" viewBox="0 0 640 150" role="img" aria-label="먼작귀 번역기">
+            <g class="title-letters" filter="url(#wobble)">
+              <text x="320" y="112" text-anchor="middle">
+                <tspan class="t1">먼</tspan><tspan class="t2">작</tspan><tspan class="t3">귀</tspan><tspan dx="22" class="t4">번</tspan><tspan class="t5">역</tspan><tspan class="t6">기</tspan>
+              </text>
+            </g>
+          </svg>
+        </h1>
+        <p class="lede">한글로 쓰면 먼작귀 친구들 말투로 바꿔 줘요.</p>
+      </header>
+
+      <section class="note-wrap" aria-label="번역할 말">
+        <div class="peek" aria-hidden="true"></div>
+        <div class="note sk" data-paper="#fffefb" data-radius="12">
+          <label for="src" class="sr-only">번역할 말</label>
+          <textarea id="src" rows="3" maxlength="300" placeholder="하고 싶은 말을 써 보세요"></textarea>
+          <div class="note-foot">
+            <span class="count" id="count">0 / 300</span>
+            <button type="button" class="link-btn" id="clear">지우기</button>
+          </div>
+        </div>
+        <div class="examples" role="group" aria-label="예시 문장">
+          <span class="examples-label">이렇게 써 봐요</span>
+          <div class="chips" id="chips"></div>
+        </div>
+      </section>
+
+      <section class="strip" id="strip" aria-label="번역 결과"></section>
+
+      <p class="howto">
+        말투는 원작 만화와 애니메이션 대사를 바탕으로 만들었어요. 같은 말도 <b>다시</b>를 누르면 다르게 말해요.
+      </p>
+    </main>
+
+    <footer class="foot">
+      비공식 팬메이드 번역기예요. 먼작귀(ちいかわ)와 캐릭터의 권리는 나가노(ナガノ)에게 있어요.
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
